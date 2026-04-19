@@ -1,6 +1,13 @@
 <?php
-$koneksi = mysqli_connect("localhost", "root", "", "db_lentera");
-if (mysqli_connect_errno()){
-    echo "Koneksi Database Gagal :". mysqli_connect_error();
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "db_lentera";
+
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+// Cek koneksi
+if (!$conn) {
+    die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 ?>
