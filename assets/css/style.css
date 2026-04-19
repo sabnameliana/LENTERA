@@ -1,0 +1,139 @@
+/* assets/css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-blue: #A3BAC3;
+    --btn-color: #9D8C78; /* Warna tombol cokelat pastel presisi */
+    --input-bg: #F3F3F3; /* Warna abu muda buat placeholder background */
+    --text-dark: #333333;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: var(--text-dark);
+}
+
+/* Container Utama Kotak Login - PENTING: Untuk Shadow Halus & Radius */
+.main-login-box {
+    background-color: white;
+    width: 1000px; /* Sesuaikan ukuran */
+    height: 600px;
+    border-radius: 20px; /* Sudut melengkung halus sesuai Figma */
+    overflow: hidden;
+    /* Ini rahasia Drop Shadow halusnya */
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.08); 
+    display: flex;
+}
+
+/* Bagian Kiri (Biru Pastel & Logo) */
+.login-left-pane {
+    background-color: var(--primary-blue);
+    width: 40%; /* 40% dari total lebar box */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 50px;
+}
+
+.login-left-pane img {
+    max-width: 160px;
+    margin-bottom: 25px;
+}
+
+.login-left-pane h2 {
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+/* Bagian Kanan (Judul & Form) */
+.login-right-pane {
+    width: 60%; /* 60% dari total lebar box */
+    background-color: white;
+    padding: 60px 80px; /* Jarak padding dalem */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-right-pane h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    color: var(--text-dark);
+}
+
+/* Styling Judul Input (Username/Password) */
+.form-label {
+    font-weight: 500;
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 7px;
+}
+
+/* Styling Kotak Input Sesuai Figma */
+.form-control-custom {
+    background-color: var(--input-bg); /* Background abu muda */
+    border: none; /* Gak pake garis pinggir */
+    border-radius: 10px; /* Sudut lengkung input */
+    padding: 14px 18px; /* Lebih gemuk dikit */
+    width: 100%;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.2s;
+}
+
+/* Teks samar (Placeholder) */
+.form-control-custom::placeholder {
+    color: #999;
+    font-size: 0.95rem;
+}
+
+/* Input saat diklik (Focus) */
+.form-control-custom:focus {
+    outline: none;
+    background-color: #EDEDED; /* Sedikit lebih gelap pas fokus */
+    box-shadow: 0 0 0 3px rgba(163, 186, 195, 0.15); /* Shadow tipis warna sidebar */
+}
+
+/* Tombol LOGIN Sesuai Figma */
+.btn-submit-login {
+    background-color: var(--btn-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 0;
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-top: 30px;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
+}
+
+.btn-submit-login:hover {
+    background-color: #8C7B67;
+}
+
+/* Group buat input password + icon mata */
+.password-input-group {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-group .form-control-custom {
+    padding-right: 50px; /* Kasih ruang buat icon mata di kanan */
+}
+
+/* Icon Mata Garis Tipis (Pakai FontAwesome biar presisi) */
+.toggle-password-icon {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+}
