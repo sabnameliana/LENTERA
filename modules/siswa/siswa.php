@@ -32,7 +32,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                 <a href="../../index.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
                 <div class="nav-item active"><i class="fa-solid fa-database"></i> Master Data</div>
                 <a href="siswa.php" class="nav-item sub active"><i class="fa-solid fa-user-group"></i> Siswa</a>
-                <a href="jadwal.php" class="nav-item sub"><i class="fa-solid fa-calendar-days"></i> Jadwal</a>
+                <a href="../../modules/jadwal/jadwal.php" class="nav-item sub"><i class="fa-solid fa-calendar-days"></i> Jadwal</a>
                 <a href="#" class="nav-item"><i class="fa-solid fa-box"></i> Inventaris</a>
                 <a href="#" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> Sewa</a>
                 <a href="#" class="nav-item"><i class="fa-solid fa-money-bill"></i> Keuangan</a>
