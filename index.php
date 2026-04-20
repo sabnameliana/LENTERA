@@ -63,12 +63,8 @@ $total_duit = ($row_siswa['total'] ?? 0) + ($row_sewa['total'] ?? 0);
 
         <main class="main-content">
             <div class="top-bar">
-                <span style="font-size: 0.9rem;">
-                    Halo, <strong><?php echo $_SESSION['nama_admin']; ?> !</strong>
-                </span>
-                <a href="logout.php" class="btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
+                 <span>Halo, <strong><?php echo $_SESSION['nama_admin']; ?> !</strong></span>
+                <a href="../../logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
 
             <h2>Ringkasan Cepat</h2>

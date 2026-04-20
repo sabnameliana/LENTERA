@@ -59,6 +59,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                         <tr>
                             <th>ID</th>
                             <th>Nama Siswa</th>
+                            <th>Alamat</th>
                             <th>No. HP</th>
                             <th>Kelas</th>
                             <th>Tgl. Daftar</th>
@@ -77,6 +78,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                             <tr>
                                 <td><?php echo str_pad($row['id_siswa'], 3, '0', STR_PAD_LEFT); ?></td>
                                 <td><?php echo $row['nama_siswa']; ?></td>
+                                <td><?php echo $row['alamat']; ?></td>
                                 <td><?php echo $row['no_hp']; ?></td>
                                 <td><?php echo $row['nama_kelas'] . " - " . $row['tingkat']; ?></td>
                                 <td><?php echo tgl_indo($row['tgl_daftar']); ?></td>
