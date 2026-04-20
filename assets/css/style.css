@@ -201,9 +201,11 @@ body {
 }
 
 .stat-card h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;      /* Ukuran font sedikit dikecilkan biar elegan */
     margin-bottom: 5px;
     color: #333;
+    font-weight: 500;       /* INI YANG DITAMBAH: 500 itu Medium, jangan 700 (Bold) */
+    letter-spacing: 0.2px;
 }
 .stat-card .value {
     font-size: 1.5rem;
@@ -222,6 +224,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 15px;
     padding: 20px;
+}
+.data-box h3 {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 .table-custom {
@@ -248,7 +256,7 @@ body {
     gap: 10px;
     background-color: white;
     color: #333;
-    border: none;             /* Hapus border biar lebih clean di atas biru */
+    border: none;
     padding: 6px 15px;
     border-radius: 8px;
     font-weight: 600;
@@ -257,22 +265,23 @@ body {
     text-decoration: none;
     transition: 0.3s;
 }
+
 .btn-logout:hover {
     background-color: #f0f0f0;
     transform: translateY(-2px);
 }
+
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* --- PERUBAHAN DI SINI --- */
-    background-color: #A4BCC2; /* Warna biru sesuai sidebar/figma */
-    padding: 12px 25px;       /* Padding biar nggak mepet ke pinggir biru */
+    background-color: #A4BCC2;
+    padding: 12px 25px;
     margin-bottom: 25px;
-    border-radius: 10px;      /* Kasih lekukan biar lebih modern kaya di gambar */
-    color: #333;              /* Warna teks */
+    border-radius: 10px;
+    color: #333;
     width: 100%;
-    box-sizing: border-box;    /* Biar padding nggak ngerusak lebar */
+    box-sizing: border-box;
 }
 
 .nav-item.sub {
@@ -281,22 +290,22 @@ body {
 }
 
 .btn-tambah {
-    background-color: #437677; /* Warna hijau teal sesuai Figma */
-    color: white !important;   /* Pakai !important biar gak berubah jadi biru link */
-    text-decoration: none;     /* Ilangin garis bawah */
+    background-color: #437677;
+    color: white !important;
+    text-decoration: none;
     padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.85rem;
-    display: inline-flex;      /* Biar icon dan teks sejajar rapi */
+    display: inline-flex;
     align-items: center;
-    gap: 8px;                  /* Jarak antara icon + dan teks */
+    gap: 8px;
     transition: 0.3s;
     border: none;
 }
 
 .btn-tambah:hover {
-    background-color: #355e5f; /* Warna agak gelap pas kursor nempel */
+    background-color: #355e5f;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 .modal-overlay {
