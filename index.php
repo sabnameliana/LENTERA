@@ -16,7 +16,7 @@ $total_siswa = $query_siswa ? mysqli_num_rows($query_siswa) : 0;
 $query_pelatih = mysqli_query($conn, "SELECT * FROM t_pelatih");
 $total_pelatih = $query_pelatih ? mysqli_num_rows($query_pelatih) : 0;
 
-$query_sewa = mysqli_query($conn, "SELECT * FROM t_sewa WHERE status = 'Lunas'");
+$query_sewa = mysqli_query($conn, "SELECT * FROM t_sewa WHERE status = 'Belum Kembali'");
 $total_sewa = $query_sewa ? mysqli_num_rows($query_sewa) : 0;
 
 $q_pemasukan_siswa = mysqli_query($conn, "SELECT SUM(jumlah) as total FROM t_pembayaran_siswa");
@@ -151,26 +151,29 @@ $total_duit = ($row_siswa['total'] ?? 0) + ($row_sewa['total'] ?? 0);
                         <tbody>
                             <?php
                             $sql_sewa = mysqli_query($conn, "SELECT t_sewa.nama_penyewa, t_sewa.tgl_kembali, t_aset.nama_aset 
-                                            FROM t_sewa 
-                                            JOIN t_detail_sewa ON t_sewa.id_sewa = t_detail_sewa.id_sewa
-                                            JOIN t_aset ON t_detail_sewa.id_aset = t_aset.id_aset
-                                            WHERE t_sewa.status = 'Lunas' 
-                                            LIMIT 5");
+                            FROM t_sewa 
+                            JOIN t_detail_sewa ON t_sewa.id_sewa = t_detail_sewa.id_sewa
+                            JOIN t_aset ON t_detail_sewa.id_aset = t_aset.id_aset
+                            WHERE t_sewa.status = 'Belum Kembali' 
+                            ORDER BY t_sewa.tgl_kembali ASC 
+                            LIMIT 5");
 
                             if (mysqli_num_rows($sql_sewa) > 0) {
                                 while ($s = mysqli_fetch_array($sql_sewa)) {
                             ?>
                                     <tr>
-                                        <td><?php echo $s['nama_penyewa']; ?></td>
+                                        <td><strong><?php echo $s['nama_penyewa']; ?></strong></td>
                                         <td><?php echo $s['nama_aset']; ?></td>
                                         <td>
-                                            <?php echo tgl_indo($s['tgl_kembali']); ?>
+                                            <span style="color: #e53e3e; font-weight: 600;">
+                                                <?php echo tgl_indo($s['tgl_kembali']); ?>
+                                            </span>
                                         </td>
                                     </tr>
                             <?php
                                 }
                             } else {
-                                echo "<tr><td colspan='3' style='text-align:center;'>Semua aset sudah kembali</td></tr>";
+                                echo "<tr><td colspan='3' style='text-align:center; padding: 20px;'>✅ Semua aset sudah kembali</td></tr>";
                             }
                             ?>
                         </tbody>
