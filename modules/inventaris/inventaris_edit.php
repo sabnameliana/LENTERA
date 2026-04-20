@@ -2,7 +2,6 @@
 include "../../config/koneksi.php";
 include "../../config/fungsi.php";
 
-// Ambil ID dari URL
 $id = $_GET['id'];
 $query = mysqli_query($conn, "SELECT * FROM t_aset WHERE id_aset = '$id'");
 $d = mysqli_fetch_array($query);
@@ -32,9 +31,7 @@ $d = mysqli_fetch_array($query);
                     <label>Kategori</label>
                     <select name="kategori" required>
                         <option value="Paket" <?php if($d['kategori'] == 'Paket') echo 'selected'; ?>>Paket</option>
-                        <option value="Satuan" <?php if($d['kategori'] == 'Satuan') echo 'selected'; ?>>Satuan</option>
-                        <option value="Aksesoris" <?php if($d['kategori'] == 'Aksesoris') echo 'selected'; ?>>Aksesoris</option>
-                    </select>
+                        <option value="Satuan" <?php if($d['kategori'] == 'Satuan') echo 'selected'; ?>>Satuan</option>                    </select>
                 </div>
             </div>
 

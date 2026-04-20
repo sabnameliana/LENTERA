@@ -8,7 +8,6 @@ if (isset($_POST['update'])) {
     $stok       = $_POST['stok'];
     $harga_sewa = $_POST['harga_sewa'];
 
-    // Query Update
     $query = "UPDATE t_aset SET 
                 nama_aset = '$nama_aset', 
                 kategori = '$kategori', 

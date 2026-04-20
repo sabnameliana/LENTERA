@@ -19,7 +19,7 @@ include "../../config/fungsi.php";
             <div class="form-row">
                 <div class="form-group">
                     <label>Nama Aset</label>
-                    <input type="text" name="nama_aset" placeholder="masukan nama aset baru" required>
+                    <input type="text" name="nama_aset" placeholder="Masukkan nama aset baru" required>
                 </div>
                 <div class="form-group">
                     <label>Kategori</label>
@@ -27,7 +27,6 @@ include "../../config/fungsi.php";
                         <option value="">-- Pilih Kategori --</option>
                         <option value="Paket">Paket</option>
                         <option value="Satuan">Satuan</option>
-                        <option value="Aksesoris">Aksesoris</option>
                     </select>
                 </div>
             </div>
