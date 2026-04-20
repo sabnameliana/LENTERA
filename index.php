@@ -1,11 +1,13 @@
 <?php
 session_start();
-
 require_once "config/koneksi.php";
 require_once "config/fungsi.php";
 
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+$base_url = "http://localhost/LENTERA/";
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
+    header("location:login.php?pesan=belum_login");
+    exit();
 }
 
 $query_siswa = mysqli_query($conn, "SELECT * FROM t_siswa");
@@ -47,24 +49,45 @@ $total_duit = ($row_siswa['total'] ?? 0) + ($row_sewa['total'] ?? 0);
             </div>
 
             <nav class="nav-menu">
-                <a href="index.php" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="<?php echo $base_url; ?>index.php" class="nav-item active">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
 
-                <div class="nav-item"><i class="fa-solid fa-database"></i> Master Data <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i></div>
+                <div class="nav-item">
+                    <i class="fa-solid fa-database"></i> Master Data
+                    <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </div>
 
-                <a href="modules/siswa/siswa.php" class="nav-item sub"><i class="fa-solid fa-user-group"></i> Siswa</a>
-                <a href="modules/jadwal/jadwal.php" class="nav-item sub"><i class="fa-solid fa-calendar-days"></i> Jadwal</a>
+                <a href="<?php echo $base_url; ?>modules/siswa/siswa.php" class="nav-item sub">
+                    <i class="fa-solid fa-user-group"></i> Siswa
+                </a>
 
-                <a href="modules/jadwal/inventaris.php" class="nav-item"><i class="fa-solid fa-box"></i> Inventaris</a>
-                <a href="modules/sewa/sewa.php" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> Sewa</a>
-                <a href="modules/keuangan/keuangan.php" class="nav-item"><i class="fa-solid fa-money-bill"></i> Keuangan</a>
-                <a href="modules/laporan/laporan.php" class="nav-item"><i class="fa-solid fa-file-lines"></i> Laporan</a>
+                <a href="<?php echo $base_url; ?>modules/jadwal/jadwal.php" class="nav-item sub">
+                    <i class="fa-solid fa-calendar-days"></i> Jadwal
+                </a>
+
+                <a href="<?php echo $base_url; ?>modules/inventaris/inventaris.php" class="nav-item">
+                    <i class="fa-solid fa-box"></i> Inventaris
+                </a>
+
+                <a href="<?php echo $base_url; ?>modules/sewa/sewa.php" class="nav-item">
+                    <i class="fa-solid fa-cart-shopping"></i> Sewa
+                </a>
+
+                <a href="<?php echo $base_url; ?>modules/keuangan/keuangan.php" class="nav-item">
+                    <i class="fa-solid fa-money-bill"></i> Keuangan
+                </a>
+
+                <a href="<?php echo $base_url; ?>modules/laporan/laporan.php" class="nav-item">
+                    <i class="fa-solid fa-file-lines"></i> Laporan
+                </a>
             </nav>
         </aside>
 
         <main class="main-content">
             <div class="top-bar">
-                 <span>Halo, <strong><?php echo $_SESSION['nama_admin']; ?> !</strong></span>
-                <a href="../../logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                <span>Halo, <strong><?php echo $_SESSION['nama_admin']; ?> !</strong></span>
+                <a href="<?php echo $base_url; ?>logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
             </div>
 
             <h2>Ringkasan Cepat</h2>
