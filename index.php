@@ -54,7 +54,7 @@ $total_duit = ($row_siswa['total'] ?? 0) + ($row_sewa['total'] ?? 0);
                 <a href="modules/siswa/siswa.php" class="nav-item sub"><i class="fa-solid fa-user-group"></i> Siswa</a>
                 <a href="modules/jadwal/jadwal.php" class="nav-item sub"><i class="fa-solid fa-calendar-days"></i> Jadwal</a>
 
-                <a href="modules/jadwal/inventaris.php" class="nav-item"><i class="fa-solid fa-box"></i> Inventaris</a>
+                <a href="modules/inventaris/inventaris.php" class="nav-item"><i class="fa-solid fa-box"></i> Inventaris</a>
                 <a href="modules/sewa/sewa.php" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> Sewa</a>
                 <a href="modules/keuangan/keuangan.php" class="nav-item"><i class="fa-solid fa-money-bill"></i> Keuangan</a>
                 <a href="modules/laporan/laporan.php" class="nav-item"><i class="fa-solid fa-file-lines"></i> Laporan</a>

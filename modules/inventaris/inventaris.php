@@ -1,0 +1,96 @@
+<?php
+session_start();
+require_once "../../config/koneksi.php";
+require_once "../../config/fungsi.php";
+
+// Cek Login
+if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
+    header("location:../../login.php?pesan=belum_login");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inventaris Aset - Sanggar Lentera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../../assets/img/tari_logo.png" alt="Logo">
+                <h3>Sanggar Tari</h3>
+            </div>
+            <nav class="nav-menu">
+                <a href="../../index.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <div class="nav-item active"><i class="fa-solid fa-database"></i> Master Data</div>
+                <a href="../../modules/siswa/siswa.php" class="nav-item sub"><i class="fa-solid fa-user-group"></i> Siswa</a>
+                <a href="../../modules/jadwal/jadwal.php" class="nav-item sub"><i class="fa-solid fa-calendar-days"></i> Jadwal</a>
+                <a href="inventaris.php" class="nav-item sub active"><i class="fa-solid fa-box"></i> Inventaris</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> Sewa</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-money-bill"></i> Keuangan</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-file-lines"></i> Laporan</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <span>Halo, <strong><?php echo $_SESSION['nama_admin']; ?> !</strong></span>
+                <a href="../../logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-weight: 600;">Daftar Inventaris Sanggar</h2>
+                <a href="inventaris_tambah.php" style="background-color: #437677; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-plus"></i> Tambah Aset Baru
+                </a>
+            </div>
+
+            <div class="data-box" style="background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <table class="table-custom" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #E0E0E0; text-align: left;">
+                            <th style="padding: 15px;">ID</th>
+                            <th>Nama Aset</th>
+                            <th>Kategori</th>
+                            <th>Stok</th>
+                            <th>Harga Sewa</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Ambil data dari tabel t_aset sesuai database db_lentera
+                        $query = mysqli_query($conn, "SELECT * FROM t_aset ORDER BY id_aset ASC");
+
+                        while ($row = mysqli_fetch_assoc($query)) {
+                        ?>
+                            <tr style="border-bottom: 1px solid #EEE;">
+                                <td style="padding: 15px;"><?php echo str_pad($row['id_aset'], 3, '0', STR_PAD_LEFT); ?></td>
+                                <td><strong><?php echo $row['nama_aset']; ?></strong></td>
+                                <td><?php echo $row['kategori']; ?></td>
+                                <td><?php echo $row['stok']; ?> unit</td>
+                                <td>Rp <?php echo number_format($row['harga_sewa'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <a href="inventaris_edit.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; margin-right: 12px; font-size: 18px;"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="inventaris_hapus.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; font-size: 18px;" onclick="return confirm('Yakin hapus aset ini?')"><i class="fa-regular fa-trash-can"></i></a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
