@@ -9,6 +9,19 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
     header("location:../../login.php?pesan=belum_login");
     exit();
 }
+
+$where = "WHERE 1=1";
+
+if (isset($_GET['bulan']) && $_GET['bulan'] != "") {
+    $bulan = $_GET['bulan'];
+    $where .= " AND p.bulan = '$bulan'";
+}
+
+if (isset($_GET['from']) && $_GET['from'] != "" && isset($_GET['to']) && $_GET['to'] != "") {
+    $from = $_GET['from'];
+    $to = $_GET['to'];
+    $where .= " AND p.tgl_bayar BETWEEN '$from' AND '$to'";
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +48,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                     <i class="fa-solid fa-house"></i> Dashboard
                 </a>
 
-                <div class="nav-item active">
+                <div class="nav-item">
                     <i class="fa-solid fa-database"></i> Master Data
                     <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
                 </div>
@@ -74,7 +87,9 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-weight: 600;">Laporan Pembayaran Siswa</h2>
-                <a href="laporan_cetak.php" style="background-color: #437677; color: white; padding: 10px 25px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold;">
+                <a href="laporan_cetak.php?bulan=<?php echo isset($_GET['bulan']) ? $_GET['bulan'] : ''; ?>&from=<?php echo isset($_GET['from']) ? $_GET['from'] : ''; ?>&to=<?php echo isset($_GET['to']) ? $_GET['to'] : ''; ?>"
+                    target="_blank"
+                    style="background-color: #437677; color: white; padding: 10px 25px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold;">
                     <i class="fa-solid fa-print"></i> CETAK
                 </a>
             </div>
@@ -83,8 +98,13 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                 <form action="" method="GET" style="display: flex; align-items: center; gap: 15px; width: 100%;">
                     <span style="white-space: nowrap;">Periode :</span>
                     <select name="bulan" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; font-family: 'Poppins';">
-                        <option value="">Pilih Periode</option>
-                        <option value="April">April 2026</option>
+                        <?php
+                        $list_bulan = mysqli_query($conn, "SELECT DISTINCT bulan FROM t_pembayaran_siswa");
+                        while ($b = mysqli_fetch_array($list_bulan)) {
+                            $sel = (isset($_GET['bulan']) && $_GET['bulan'] == $b['bulan']) ? 'selected' : '';
+                            echo "<option value='" . $b['bulan'] . "' $sel>" . $b['bulan'] . "</option>";
+                        }
+                        ?>
                     </select>
                     <span>From</span>
                     <input type="date" name="from" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex: 1; font-family: 'Poppins';">
@@ -115,18 +135,21 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                                 $total_belum = 0;
 
                                 $query = mysqli_query($conn, "SELECT p.*, s.nama_siswa, k.nama_kelas 
-                                        FROM t_pembayaran_siswa p 
-                                        JOIN t_siswa s ON p.id_siswa = s.id_siswa 
-                                        JOIN t_kelas k ON s.id_kelas = k.id_kelas 
-                                        ORDER BY p.tgl_bayar DESC");
+                                    FROM t_pembayaran_siswa p 
+                                    JOIN t_siswa s ON p.id_siswa = s.id_siswa 
+                                    JOIN t_kelas k ON s.id_kelas = k.id_kelas 
+                                    $where 
+                                    ORDER BY p.tgl_bayar DESC");
 
                                 while ($row = mysqli_fetch_assoc($query)) {
                                     if ($row['status'] == 'Lunas') {
                                         $total_terbayar += $row['jumlah'];
-                                        $bg = "#C6F6D5"; $txt = "#22543D";
+                                        $bg = "#C6F6D5";
+                                        $txt = "#22543D";
                                     } else {
                                         $total_belum += $row['jumlah'];
-                                        $bg = "#FDF2AF"; $txt = "#856404";
+                                        $bg = "#FED7D7";
+                                        $txt = "#822727";
                                     }
                                 ?>
                                     <tr style="border-bottom: 1px solid #EEE;">
@@ -171,4 +194,5 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
     </div>
 
 </body>
+
 </html>

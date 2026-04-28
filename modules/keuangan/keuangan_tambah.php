@@ -2,14 +2,12 @@
 session_start();
 include "../../config/koneksi.php";
 
-// Ambil data siswa untuk pilihan dropdown
 $siswa_result = mysqli_query($conn, "SELECT id_siswa, nama_siswa FROM t_siswa ORDER BY nama_siswa ASC");
 $list_siswa = [];
 while ($row = mysqli_fetch_assoc($siswa_result)) {
     $list_siswa[] = $row;
 }
 
-// Daftar bulan untuk pilihan iuran
 $daftar_bulan = [
     "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
     "Juli", "Agustus", "September", "Oktober", "November", "Desember"

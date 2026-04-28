@@ -1,7 +1,6 @@
 <?php
 include "../../config/koneksi.php";
 
-// Ambil ID dari URL
 $id = $_GET['id'];
 $query = mysqli_query($conn, "SELECT * FROM t_jadwal WHERE id_jadwal = '$id'");
 $d = mysqli_fetch_array($query);
@@ -86,7 +85,6 @@ $d = mysqli_fetch_array($query);
 </div>
 
 <script>
-// Panggil fungsi saat load agar tingkat kelas muncul otomatis
 window.onload = function() { isiTingkatJadwal(); };
 
 function isiTingkatJadwal() {
@@ -95,7 +93,6 @@ function isiTingkatJadwal() {
     if (id_kelas == "") return;
 
     var xhr = new XMLHttpRequest();
-    // Kamu bisa pakai file get_tingkat.php yang sama dengan milik siswa
     xhr.open("GET", "get_tingkat.php?id_kelas=" + id_kelas, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

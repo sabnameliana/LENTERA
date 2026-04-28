@@ -326,3 +326,23 @@ body {
 .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .btn-simpan { background: #C5E1A5; border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 .btn-batal { background: #ddd; border: none; padding: 10px 30px; border-radius: 8px; text-decoration: none; color: black; font-weight: bold; }
+
+/* Untuk tampilan Nota Cetak */
+.nota-box { 
+    max-width: 900px; 
+    margin: auto; 
+    padding: 30px; 
+    border: 1px solid #ddd; 
+}
+.header-nota { text-align: center; border-bottom: 2px solid #437677; margin-bottom: 20px; }
+.info-laporan { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.table-cetak { width: 100%; border-collapse: collapse; }
+.table-cetak th, .table-cetak td { border: 1px solid #ddd; padding: 10px; }
+.total-section { display: flex; justify-content: flex-end; margin-top: 20px; }
+.total-box { min-width: 250px; }
+.total-row { display: flex; justify-content: space-between; font-weight: bold; }
+
+@media print {
+    .no-print { display: none !important; } /* Menghilangkan tombol cetak & kembali saat di-print */
+    .nota-box { border: none; }
+}

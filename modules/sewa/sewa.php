@@ -35,7 +35,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                     <i class="fa-solid fa-house"></i> Dashboard
                 </a>
 
-                <div class="nav-item active">
+                <div class="nav-item">
                     <i class="fa-solid fa-database"></i> Master Data
                     <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
                 </div>
@@ -94,10 +94,8 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                     </thead>
                     <tbody>
                         <?php
-                        // Ambil data dari tabel t_sewa
                         $query = mysqli_query($conn, "SELECT * FROM t_sewa ORDER BY id_sewa DESC");
                         while ($row = mysqli_fetch_assoc($query)) {
-                            // Warna Badge Status
                             $status_color = ($row['status'] == 'Lunas') ? '#C6F6D5' : '#FED7D7';
                             $text_color = ($row['status'] == 'Lunas') ? '#22543D' : '#822727';
                         ?>

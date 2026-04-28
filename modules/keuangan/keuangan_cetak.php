@@ -4,7 +4,6 @@ include "../../config/koneksi.php";
 
 $id = $_GET['id'];
 
-// Query untuk mengambil data pembayaran join dengan tabel siswa untuk mendapatkan nama siswa
 $query_bayar = mysqli_query($conn, "SELECT t_pembayaran_siswa.*, t_siswa.nama_siswa 
                                     FROM t_pembayaran_siswa 
                                     JOIN t_siswa ON t_pembayaran_siswa.id_siswa = t_siswa.id_siswa 
