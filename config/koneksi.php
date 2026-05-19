@@ -4,6 +4,7 @@ $user = "root";
 $pass = "";
 $db   = "db_lentera";
 
+/** @var mysqli $conn */
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 // Cek koneksi

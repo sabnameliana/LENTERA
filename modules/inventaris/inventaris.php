@@ -3,11 +3,19 @@ session_start();
 require_once "../../config/koneksi.php";
 require_once "../../config/fungsi.php";
 
+/** @var mysqli $conn */ // Menghilangkan garis merah di VS Code
+
 $base_url = "http://localhost/LENTERA/";
 
 if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
     header("location:../../login.php?pesan=belum_login");
     exit();
+}
+
+$where = "WHERE 1=1";
+if (isset($_GET['cari']) && $_GET['cari'] != "") {
+    $cari = mysqli_real_escape_string($conn, $_GET['cari']);
+    $where .= " AND (nama_aset LIKE '%$cari%' OR kategori LIKE '%$cari%')";
 }
 ?>
 
@@ -79,6 +87,22 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                 </a>
             </div>
 
+            <form method="GET" action="" style="margin-bottom: 20px; display: flex; gap: 10px;">
+                <input type="text" name="cari" placeholder="Cari nama aset atau kategori..." 
+                       value="<?php echo isset($_GET['cari']) ? htmlspecialchars($_GET['cari']) : ''; ?>" 
+                       style="padding: 10px 15px; width: 300px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 14px;">
+                
+                <button type="submit" style="background-color: #437677; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Poppins', sans-serif; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-magnifying-glass"></i> CARI
+                </button>
+
+                <?php if (isset($_GET['cari']) && $_GET['cari'] != ""): ?>
+                    <a href="inventaris.php" style="background-color: #666; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; display: inline-flex; align-items: center;">
+                        RESET
+                    </a>
+                <?php endif; ?>
+            </form>
+
             <div class="data-box" style="background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                 <table class="table-custom" style="width: 100%; border-collapse: collapse;">
                     <thead>
@@ -93,22 +117,29 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                     </thead>
                     <tbody>
                         <?php
-                        $query = mysqli_query($conn, "SELECT * FROM t_aset ORDER BY id_aset ASC");
+                        // 3. Query Menggunakan Variabel $where untuk Filter
+                        $query = mysqli_query($conn, "SELECT * FROM t_aset $where ORDER BY id_aset ASC");
 
-                        while ($row = mysqli_fetch_assoc($query)) {
+                        if (mysqli_num_rows($query) > 0) {
+                            while ($row = mysqli_fetch_assoc($query)) {
+                            ?>
+                                <tr style="border-bottom: 1px solid #EEE;">
+                                    <td style="padding: 15px;"><?php echo str_pad($row['id_aset'], 3, '0', STR_PAD_LEFT); ?></td>
+                                    <td><strong><?php echo $row['nama_aset']; ?></strong></td>
+                                    <td><?php echo $row['kategori']; ?></td>
+                                    <td><?php echo $row['stok']; ?> unit</td>
+                                    <td>Rp <?php echo number_format($row['harga_sewa'], 0, ',', '.'); ?></td>
+                                    <td>
+                                        <a href="inventaris_edit.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; margin-right: 12px; font-size: 18px;"><i class="fa-regular fa-pen-to-square"></i></a>
+                                        <a href="inventaris_hapus.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; font-size: 18px;" onclick="return confirm('Yakin hapus aset ini?')"><i class="fa-regular fa-trash-can"></i></a>
+                                    </td>
+                                </tr>
+                            <?php 
+                            } 
+                        } else {
+                            echo "<tr><td colspan='6' style='text-align: center; padding: 20px; color: #666;'>Data aset tidak ditemukan.</td></tr>";
+                        }
                         ?>
-                            <tr style="border-bottom: 1px solid #EEE;">
-                                <td style="padding: 15px;"><?php echo str_pad($row['id_aset'], 3, '0', STR_PAD_LEFT); ?></td>
-                                <td><strong><?php echo $row['nama_aset']; ?></strong></td>
-                                <td><?php echo $row['kategori']; ?></td>
-                                <td><?php echo $row['stok']; ?> unit</td>
-                                <td>Rp <?php echo number_format($row['harga_sewa'], 0, ',', '.'); ?></td>
-                                <td>
-                                    <a href="inventaris_edit.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; margin-right: 12px; font-size: 18px;"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="inventaris_hapus.php?id=<?php echo $row['id_aset']; ?>" style="color: #333; font-size: 18px;" onclick="return confirm('Yakin hapus aset ini?')"><i class="fa-regular fa-trash-can"></i></a>
-                                </td>
-                            </tr>
-                        <?php } ?>
                     </tbody>
                 </table>
             </div>
