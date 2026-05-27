@@ -1,4 +1,6 @@
 <?php
+// Wajib tambah session_start() di paling atas untuk tahu role yang login
+session_start(); 
 include "../../config/koneksi.php";
 
 if (isset($_POST['update'])) {
@@ -16,10 +18,22 @@ if (isset($_POST['update'])) {
               WHERE id_jadwal = '$id_jadwal'";
 
     if (mysqli_query($conn, $query)) {
-        echo "<script>
-                alert('Jadwal Latihan Berhasil Diperbarui!');
-                window.location='jadwal.php';
-              </script>";
+        
+        // --- INI DIUBAH PAKE IF ---
+        if ($_SESSION['role'] == 'guru') {
+            // Jika guru, arahkan balik ke dashboard guru
+            echo "<script>
+                    alert('Jadwal Latihan Berhasil Diperbarui!');
+                    window.location='../../dashboard_guru.php';
+                  </script>";
+        } else {
+            // Jika admin, arahkan balik ke data tabel jadwal
+            echo "<script>
+                    alert('Jadwal Latihan Berhasil Diperbarui!');
+                    window.location='jadwal.php';
+                  </script>";
+        }
+        
     } else {
         echo "Error Update Jadwal: " . mysqli_error($conn);
     }

@@ -6,22 +6,38 @@ if (isset($_POST['username'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // 1. Ambil data berdasarkan username dan password
+    // (Sesuaikan nama tabel 't_admin' jika kamu mengubah nama tabelnya di database)
     $query = mysqli_query($conn, "SELECT * FROM t_admin WHERE username='$username' AND password='$password'");
     $cek = mysqli_num_rows($query);
 
     if ($cek > 0) {
         $data = mysqli_fetch_assoc($query);
 
-        session_start();
+        // Jangan session_start() dua kali, cukup yang di paling atas tadi
         $_SESSION['username'] = $data['username'];
         $_SESSION['nama_admin'] = $data['nama_admin'];
         $_SESSION['status'] = "login";
+        
+        // --- INI YANG DITAMBAHKAN ---
+        // Menyimpan role (admin/guru) ke dalam session
+        $_SESSION['role'] = $data['role']; 
 
-        header("location:index.php");
+        // 2. Pengecekan Hak Akses (Role) untuk Mengarahkan Halaman
+        if ($data['role'] == "admin") {
+            // Jika dia admin, arahkan ke index.php (Landing page/Dashboard Admin kamu)
+            header("location:index.php");
+        } else if ($data['role'] == "guru") {
+            header("location:index_guru.php");
+        } else {
+            header("location:index.php");
+        }
+        exit();
+        
+    } else {
+        header("location:login.php?pesan=gagal");
         exit();
     }
-} else {
-    $error = "Username atau Password salah!";
 }
 ?>
 

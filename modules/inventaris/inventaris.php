@@ -3,7 +3,7 @@ session_start();
 require_once "../../config/koneksi.php";
 require_once "../../config/fungsi.php";
 
-/** @var mysqli $conn */ // Menghilangkan garis merah di VS Code
+/** @var mysqli $conn */ 
 
 $base_url = "http://localhost/LENTERA/";
 
@@ -17,7 +17,7 @@ if (isset($_GET['cari']) && $_GET['cari'] != "") {
     $cari = mysqli_real_escape_string($conn, $_GET['cari']);
     $where .= " AND (nama_aset LIKE '%$cari%' OR kategori LIKE '%$cari%')";
 }
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">
