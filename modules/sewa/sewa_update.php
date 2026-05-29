@@ -6,6 +6,7 @@ if (isset($_POST['update'])) {
     $nama_penyewa = $_POST['nama_penyewa'];
     $tgl_sewa = $_POST['tgl_sewa'];
     $tgl_kembali = $_POST['tgl_kembali'];
+    $no_hp = $_POST['no_hp']; // Mengambil input nomor HP dari form sewa_edit.php
     $total_bayar = $_POST['total_bayar'];
     $status = $_POST['status'];
 
@@ -16,10 +17,12 @@ if (isset($_POST['update'])) {
 
     mysqli_query($conn, "DELETE FROM t_detail_sewa WHERE id_sewa = '$id_sewa'");
 
+    // DI SINI PERUBAHANNYA: Kolom diubah menjadi nomor_hp sesuai database asli Anda
     mysqli_query($conn, "UPDATE t_sewa SET 
         nama_penyewa = '$nama_penyewa', 
         tgl_sewa = '$tgl_sewa', 
         tgl_kembali = '$tgl_kembali', 
+        nomor_hp = '$no_hp', 
         total_bayar = '$total_bayar', 
         status = '$status' 
         WHERE id_sewa = '$id_sewa'");

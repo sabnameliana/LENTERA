@@ -5,8 +5,9 @@ if (isset($_POST['simpan'])) {
     $nama_penyewa = mysqli_real_escape_string($conn, $_POST['nama_penyewa']);
     $tgl_sewa     = $_POST['tgl_sewa'];
     $tgl_kembali  = $_POST['tgl_kembali'];
-    $total_bayar = $_POST['total_bayar'];
+    $total_bayar  = $_POST['total_bayar'];
     $status       = $_POST['status'];
+    $no_hp        = $_POST['no_hp'];
 
     $id_aset_array = $_POST['id_aset'];
     $qty_array     = $_POST['qty'];

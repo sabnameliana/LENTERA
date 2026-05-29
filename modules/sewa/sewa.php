@@ -87,7 +87,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                             <th>Tanggal</th>
                             <th>Tgl Kembali</th>
                             <th>Penyewa</th>
-                            <th>Total Bayar</th>
+                            <th>Nomor HP</th> <th>Total Bayar</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -104,7 +104,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                                 <td><?php echo $row['tgl_sewa']; ?></td>
                                 <td><?php echo $row['tgl_kembali']; ?></td>
                                 <td><strong><?php echo $row['nama_penyewa']; ?></strong></td>
-                                <td>Rp <?php echo number_format($row['total_bayar'], 0, ',', '.'); ?></td>
+                                <td><?php echo $row['nomor_hp']; ?></td> <td>Rp <?php echo number_format($row['total_bayar'], 0, ',', '.'); ?></td>
                                 <td>
                                     <?php if ($row['status'] == 'Belum Kembali') { ?>
                                         <a href="sewa_kembali.php?id=<?php echo $row['id_sewa']; ?>"

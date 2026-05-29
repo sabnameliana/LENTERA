@@ -55,6 +55,10 @@ while ($row = mysqli_fetch_assoc($aset_result)) {
                     <label>Tanggal Kembali</label>
                     <input type="date" name="tgl_kembali" required>
                 </div>
+                <div class="form-group">
+                    <label>Nomor HP</label>
+                    <input type="tel" name="no_hp" placeholder="Masukkan Nomor Hp" required>
+                </div>
             </div>
 
             <div class="table-container" style="margin-top: 20px; background: #eee; border-radius: 10px; padding: 10px;">

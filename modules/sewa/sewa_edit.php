@@ -56,10 +56,14 @@ while($row = mysqli_fetch_assoc($aset_result)) {
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group" style="width: 50%;">
+             <div class="form-row">
+                <div class="form-group">
                     <label>Tanggal Kembali</label>
-                    <input type="date" name="tgl_kembali" value="<?php echo $data['tgl_kembali']; ?>" required>
+                    <input type="date" name="tgl_kembali" required>
+                </div>
+                <div class="form-group">
+                    <label>Nomor HP</label>
+                    <input type="tel" name="no_hp" placeholder="Masukkan Nomor Hp" required>
                 </div>
             </div>
 
