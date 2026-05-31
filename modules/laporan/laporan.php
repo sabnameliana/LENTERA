@@ -164,7 +164,7 @@ if ($jenis_laporan == 'sewa') {
                 <h3>Sanggar Tari</h3>
             </div>
             <nav class="nav-menu">
-                <a href="<?php echo $base_url; ?>index.php" class="nav-item">
+                <a href="<?php echo $base_url; ?>dashboard_admin.php" class="nav-item">
                     <i class="fa-solid fa-house"></i> Dashboard
                 </a>
 

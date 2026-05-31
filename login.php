@@ -18,19 +18,16 @@ if (isset($_POST['username'])) {
         $_SESSION['username'] = $data['username'];
         $_SESSION['nama_admin'] = $data['nama_admin'];
         $_SESSION['status'] = "login";
-        
-        // --- INI YANG DITAMBAHKAN ---
-        // Menyimpan role (admin/guru) ke dalam session
-        $_SESSION['role'] = $data['role']; 
+        $_SESSION['role'] = $data['role'];
+        $_SESSION['id_pelatih'] = $data['id_pelatih'];
 
         // 2. Pengecekan Hak Akses (Role) untuk Mengarahkan Halaman
         if ($data['role'] == "admin") {
-            // Jika dia admin, arahkan ke index.php (Landing page/Dashboard Admin kamu)
-            header("location:index.php");
+            header("location:dashboard_admin.php");
         } else if ($data['role'] == "guru") {
             header("location:index_guru.php");
         } else {
-            header("location:index.php");
+            header("location:dashboard_admin.php");
         }
         exit();
         

@@ -27,7 +27,7 @@ $base_url = "http://localhost/LENTERA/";
                 LENTERA GURU
             </div>
             <nav class="nav-menu">
-                <a href="dashboard_guru.php" class="nav-item active">
+                <a href="index_guru.php" class="nav-item active">
                     <i class="fa-solid fa-house"></i> Dashboard
                 </a>
             </nav>
@@ -36,8 +36,7 @@ $base_url = "http://localhost/LENTERA/";
         <main class="main-content" style="flex: 1; padding: 20px; background: #f8f9fa;">
             <div class="top-bar" style="background-color: #A4BCC2; padding: 12px 25px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="color: #333;">Halo Guru, <strong><?php echo $_SESSION['username']; ?>!</strong></span>
-                <a href="logout.php" class="btn-logout" style="background: white; padding: 6px 15px; border-radius: 8px; text-decoration: none; color: #333; font-weight: 600; font-size: 0.85rem;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                <a href="<?php echo $base_url; ?>logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </a>
             </div>
 
@@ -51,7 +50,7 @@ $base_url = "http://localhost/LENTERA/";
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-weight: 600;">Jadwal Latihan Sanggar</h2>
-                <a href="../../jadwal_tambah.php" style="background-color: #437677; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="modules/jadwal/jadwal_tambah.php" style="background-color: #437677; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-plus"></i> Tambah Jadwal Baru Saya
                 </a>
             </div>

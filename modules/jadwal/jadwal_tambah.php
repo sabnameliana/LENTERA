@@ -85,64 +85,67 @@ include "../../config/fungsi.php";
                     <input type="text" id="tingkat" name="tingkat" placeholder="Otomatis..." readonly style="background: #f4f4f4;">
                 </div>
             </div>
-            
+
 
             <div class="form-row">
-    <div class="form-group">
-        <label>Pilih Pelatih / Instruktur</label>
-        
-        <?php if ($_SESSION['role'] == 'guru') : ?>
-            <input type="text" value="<?php echo $_SESSION['username']; ?>" disabled style="background-color: #eee; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-weight: 600; width: 100%;">
-            
-            <input type="hidden" name="id_pelatih" value="<?php echo $_SESSION['username']; ?>">
+                <div class="form-group">
+                    <label>Pilih Pelatih / Instruktur</label>
 
-        <?php else : ?>
-            <select name="id_pelatih" required>
-                <option value="">-- Pilih Pelatih --</option>
-                <?php
-                $pelatih = mysqli_query($conn, "SELECT * FROM t_pelatih");
-                while ($p = mysqli_fetch_assoc($pelatih)) {
-                    // Trik untuk edit data: jika id_pelatih sama dengan data lama, otomatis ke-select
-                    // (Variabel $data['id_pelatih'] ini asumsi data lama dari query SELECT di bagian atas file kamu)
-                    $selected = (isset($data['id_pelatih']) && $p['id_pelatih'] == $data['id_pelatih']) ? "selected" : "";
-                    
-                    echo "<option value='$p[id_pelatih]' $selected>$p[nama_pelatih]</option>";
-                }
-                ?>
-            </select>
-        <?php endif; ?>
-        
-    </div>
-</div>
+                    <?php if ($_SESSION['role'] == 'guru') : ?>
+                        <input type="text" value="<?php echo $_SESSION['username']; ?>" disabled style="background-color: #eee; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-weight: 600; width: 100%;">
 
-            <div class="modal-footer">
-                <button type="submit" name="simpan" class="btn-simpan">SIMPAN JADWAL</button>
-                <a href="jadwal.php" class="btn-batal">BATAL</a>
+                        <input type="hidden" name="id_pelatih" value="<?php echo $_SESSION['id_pelatih']; ?>">
+
+                    <?php else : ?>
+                        <select name="id_pelatih" required>
+                            <option value="">-- Pilih Pelatih --</option>
+                            <?php
+                            $pelatih = mysqli_query($conn, "SELECT * FROM t_pelatih");
+                            while ($p = mysqli_fetch_assoc($pelatih)) {
+                                echo "<option value='$p[id_pelatih]'>$p[nama_pelatih]</option>";
+                            }
+                            ?>
+                        </select>
+                    <?php endif; ?>
+
+                </div>
             </div>
-        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" name="simpan" class="btn-simpan">SIMPAN JADWAL</button>
+        <?php if ($_SESSION['role'] == 'guru') : ?>
+            <a href="../../index_guru.php" class="btn-batal">
+                Batal
+            </a>
+        <?php else : ?>
+            <a href="jadwal.php" class="btn-batal">
+                Batal
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 
 <script>
-function isiTingkatJadwal() {
-    var id_kelas = document.getElementById("id_kelas").value;
-    var tingkatInput = document.getElementById("tingkat_jadwal");
+    function isiTingkatJadwal() {
+        var id_kelas = document.getElementById("id_kelas").value;
+        var tingkatInput = document.getElementById("tingkat_jadwal");
 
-    if (id_kelas == "") {
-        tingkatInput.value = "";
-        return;
-    }
-
-    var xhr = new XMLHttpRequest();
-    // Menggunakan get_tingkat.php yang sudah kita buat sebelumnya
-    xhr.open("GET", "get_tingkat.php?id_kelas=" + id_kelas, true);
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var hasil = xhr.responseText.trim();
-            tingkatInput.value = (hasil != "") ? hasil : "Tidak ditemukan";
+        if (id_kelas == "") {
+            tingkatInput.value = "";
+            return;
         }
-    };
-    xhr.send();
-}
+
+        var xhr = new XMLHttpRequest();
+        // Menggunakan get_tingkat.php yang sudah kita buat sebelumnya
+        xhr.open("GET", "get_tingkat.php?id_kelas=" + id_kelas, true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var hasil = xhr.responseText.trim();
+                tingkatInput.value = (hasil != "") ? hasil : "Tidak ditemukan";
+            }
+        };
+        xhr.send();
+    }
 </script>
