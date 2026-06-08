@@ -9,6 +9,12 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
     header("location:../../login.php?pesan=belum_login");
     exit();
 }
+
+$tgl_hari_ini = date('Y-m-d');
+// PERBAIKAN: Mengubah status pencarian menjadi 'Belum Kembali' sesuai database kamu
+$query_hitung_telat = mysqli_query($conn, "SELECT COUNT(*) as total_telat FROM t_sewa WHERE status = 'Belum Kembali' AND tgl_kembali < '$tgl_hari_ini'");
+$data_telat = mysqli_fetch_assoc($query_hitung_telat);
+$jumlah_telat = $data_telat['total_telat'];
 ?>
 
 <!DOCTYPE html>
@@ -72,6 +78,17 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                 <a href="../../logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
 
+            <?php
+            if ($jumlah_telat > 0) {
+                echo "
+                <div class='alert alert-danger' role='alert' style='background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-size: 14px;'>
+                    <i class='fa-solid fa-triangle-exclamation'></i> 
+                    <strong>Perhatian!</strong> Ada <strong>$jumlah_telat</strong> transaksi penyewaan yang <strong>Terlambat</strong> dikembalikan. Mohon segera hubungi penyewa!
+                </div>
+                ";
+            }
+            ?>
+
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-weight: 600;">Kelola Transaksi Sewa</h2>
                 <a href="sewa_tambah.php" style="background-color: #437677; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
@@ -87,7 +104,8 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                             <th>Tanggal</th>
                             <th>Tgl Kembali</th>
                             <th>Penyewa</th>
-                            <th>Nomor HP</th> <th>Total Bayar</th>
+                            <th>Nomor HP</th> 
+                            <th>Total Bayar</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -96,25 +114,53 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
                         <?php
                         $query = mysqli_query($conn, "SELECT * FROM t_sewa ORDER BY id_sewa DESC");
                         while ($row = mysqli_fetch_assoc($query)) {
-                            $status_color = ($row['status'] == 'Lunas') ? '#C6F6D5' : '#FED7D7';
-                            $text_color = ($row['status'] == 'Lunas') ? '#22543D' : '#822727';
+                            $status = $row['status'];
+                            $tgl_kembali = $row['tgl_kembali'];
+                            
+                            if ($status == 'Belum Kembali' && $tgl_hari_ini > $tgl_kembali) {
+                                $t1 = new DateTime($tgl_kembali);
+                                $t2 = new DateTime($tgl_hari_ini);
+                                $selisih = $t1->diff($t2);
+                                $hari_telat = $selisih->days;
+
+                                $no_hp_wa = $row['nomor_hp'];
+                                if (substr($no_hp_wa, 0, 1) === '0') {
+                                    $no_hp_wa = '62' . substr($no_hp_wa, 1);
+                                }
+
+                                $nama_target = urlencode($row['nama_penyewa']);
+                                $pesan_wa = "Halo%20*{$nama_target}*,%20kami%20dari%20*Sanggar%20Lentera*%20ingin%20mengingatkan%20bahwa%20masa%20sewa%20aset/kostum%20Anda%20telah%20*terlambat%20{$hari_telat}%20hari*%20(jatuh%20tempo%20pada%20{$row['tgl_kembali']}).%20Mohon%20untuk%20segera%20melakukan%20pengembalian%20ya.%20Terima%20kasih!%20🙏";
+
+                                $tombol_wa = "<a href='https://wa.me/{$no_hp_wa}?text={$pesan_wa}' target='_blank' style='background: #25D366; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; text-decoration: none; display: inline-block; margin-top: 3px; font-weight: normal;'>
+                                                <i class='fa-brands fa-whatsapp'></i> Hubungi WA
+                                              </a>";
+
+                                $badge_status = "<span style='background: #fed7d7; color: #822727; padding: 4px 8px; border-radius: 5px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 3px;'><i class='fa-solid fa-clock'></i> Terlambat ($hari_telat Hari)</span><br>" . $tombol_wa . "<br>";
+                            } else {
+                                $badge_status = "";
+                            }
                         ?>
                             <tr style="border-bottom: 1px solid #EEE;">
                                 <td style="padding: 15px;"><?php echo str_pad($row['id_sewa'], 3, '0', STR_PAD_LEFT); ?></td>
                                 <td><?php echo $row['tgl_sewa']; ?></td>
                                 <td><?php echo $row['tgl_kembali']; ?></td>
                                 <td><strong><?php echo $row['nama_penyewa']; ?></strong></td>
-                                <td><?php echo $row['nomor_hp']; ?></td> <td>Rp <?php echo number_format($row['total_bayar'], 0, ',', '.'); ?></td>
+                                <td><?php echo $row['nomor_hp']; ?></td> 
+                                <td>Rp <?php echo number_format($row['total_bayar'], 0, ',', '.'); ?></td>
                                 <td>
-                                    <?php if ($row['status'] == 'Belum Kembali') { ?>
-                                        <a href="sewa_kembali.php?id=<?php echo $row['id_sewa']; ?>"
-                                            class="btn-kembali"
-                                            onclick="return confirm('Apakah barang sudah kembali? Stok akan otomatis bertambah.')"
-                                            style="background: #ebf8ff; color: #2b6cb0; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 12px;">
-                                            <i class="fa-solid fa-rotate-left"></i> Set Kembali
-                                        </a>
+                                    <?php 
+                                    echo $badge_status; 
+
+                                    if ($status == 'Belum Kembali') { 
+                                    ?>
+                                        <form action="sewa_proses.php" method="POST" style="display:inline;" onclick="return confirm('Apakah barang sudah kembali? Stok akan otomatis bertambah dan denda dihitung.')">
+                                            <input type="hidden" name="id_sewa" value="<?php echo $row['id_sewa']; ?>">
+                                            <button type="submit" name="proses_kembali" style="background: #ebf8ff; color: #2b6cb0; padding: 5px 10px; border: 1px solid #bee3f8; border-radius: 5px; font-size: 12px; cursor: pointer;">
+                                                <i class="fa-solid fa-rotate-left"></i> Set Kembali
+                                            </button>
+                                        </form>
                                     <?php } else { ?>
-                                        <span style="color: #2f855a; font-weight: bold;"><i class="fa-solid fa-check"></i> Sudah Kembali</span>
+                                        <span style="color: #2f855a; font-weight: bold; font-size: 13px;"><i class="fa-solid fa-check"></i> Sudah Kembali</span>
                                     <?php } ?>
                                 </td>
                                 <td>
