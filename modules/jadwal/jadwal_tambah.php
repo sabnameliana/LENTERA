@@ -86,16 +86,13 @@ include "../../config/fungsi.php";
                 </div>
             </div>
 
-
             <div class="form-row">
                 <div class="form-group">
                     <label>Pilih Pelatih / Instruktur</label>
 
                     <?php if ($_SESSION['role'] == 'guru') : ?>
                         <input type="text" value="<?php echo $_SESSION['username']; ?>" disabled style="background-color: #eee; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-weight: 600; width: 100%;">
-
                         <input type="hidden" name="id_pelatih" value="<?php echo $_SESSION['id_pelatih']; ?>">
-
                     <?php else : ?>
                         <select name="id_pelatih" required>
                             <option value="">-- Pilih Pelatih --</option>
@@ -107,24 +104,21 @@ include "../../config/fungsi.php";
                             ?>
                         </select>
                     <?php endif; ?>
-
                 </div>
             </div>
-    </div>
 
-    <div class="modal-footer">
-        <button type="submit" name="simpan" class="btn-simpan">SIMPAN JADWAL</button>
-        <?php if ($_SESSION['role'] == 'guru') : ?>
-            <a href="../../index_guru.php" class="btn-batal">
-                Batal
-            </a>
-        <?php else : ?>
-            <a href="jadwal.php" class="btn-batal">
-                Batal
-            </a>
-        <?php endif; ?>
-    </div>
-</div>
+            <!-- PERBAIKAN: Modal footer dan tombol penutup ditaruh DI DALAM form & modal-box -->
+            <div class="modal-footer" style="margin-top: 25px;">
+                <button type="submit" name="simpan" class="btn-simpan">SIMPAN JADWAL</button>
+                <?php if ($_SESSION['role'] == 'guru') : ?>
+                    <a href="../../index_guru.php" class="btn-batal">Batal</a>
+                <?php else : ?>
+                    <a href="jadwal.php" class="btn-batal">Batal</a>
+                <?php endif; ?>
+            </div>
+        </form>
+    </div> <!-- Penutup asli modal-box -->
+</div> <!-- Penutup asli modal-overlay -->
 
 <script>
     function isiTingkatJadwal() {
@@ -137,7 +131,6 @@ include "../../config/fungsi.php";
         }
 
         var xhr = new XMLHttpRequest();
-        // Menggunakan get_tingkat.php yang sudah kita buat sebelumnya
         xhr.open("GET", "get_tingkat.php?id_kelas=" + id_kelas, true);
 
         xhr.onreadystatechange = function() {
