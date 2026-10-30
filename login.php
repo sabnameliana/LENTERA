@@ -4,7 +4,7 @@ include "config/koneksi.php";
 
 if (isset($_POST['username'])) {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+   $password = md5($_POST['password']);
 
     // 1. Ambil data berdasarkan username dan password
     // (Sesuaikan nama tabel 't_admin' jika kamu mengubah nama tabelnya di database)
