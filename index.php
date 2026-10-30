@@ -217,10 +217,22 @@ include "config/koneksi.php";
             $ambil_kelas = mysqli_query($conn, "SELECT * FROM t_kelas");
             if (mysqli_num_rows($ambil_kelas) > 0) {
                 while ($k = mysqli_fetch_assoc($ambil_kelas)) {
+                    
+                    // Logika menambahkan keterangan di samping nama kelas
+                    $nama_tampil = $k['nama_kelas'];
+                    if ($nama_tampil == 'Kelas A') {
+                        $nama_tampil = 'Kelas A - Dasar';
+                    } elseif ($nama_tampil == 'Kelas B') {
+                        $nama_tampil = 'Kelas B - Menengah';
+                    } elseif ($nama_tampil == 'Kelas C') {
+                        $nama_tampil = 'Kelas C - Lanjutan';
+                    } elseif ($nama_tampil == 'Kelas D') {
+                        $nama_tampil = 'Kelas D - Mahir / Khusus';
+                    }
             ?>
                     <div class="card-kelas">
                         <i class="fa-solid fa-palette"></i>
-                        <h3><?php echo $k['nama_kelas']; ?></h3>
+                        <h3><?php echo $nama_tampil; ?></h3>
                         <p style="color: #666; font-size: 0.9rem;">Mari bergabung di kelas ini dan kembangkan potensi terbaikmu setiap minggunya.</p>
                     </div>
             <?php
